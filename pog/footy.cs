@@ -10,6 +10,10 @@ using System.Windows.Forms;
 using System.Media;
 using System.Threading;
 
+//Bilal Zeineddine
+//March 11 2021
+//Football Table Game
+//Virtual football recreation as if it were on a tabletop, first to 3 wins! Feel the crowd ambience!
 namespace pog
 {
     public partial class Football : Form
