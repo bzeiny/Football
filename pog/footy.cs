@@ -20,6 +20,7 @@ namespace pog
         int boot1X = 15;
         int boot1Y = 100;
         int player1Score = 0;
+        int playerSize = 40;
 
         int boot2X = 530;
         int boot2Y = 100;
@@ -148,15 +149,13 @@ namespace pog
             //Draw Ball
             e.Graphics.DrawImage(ballImage, ballX, ballY, ballHeight, ballWidth);
             //Player 1
-            e.Graphics.DrawEllipse(bluePen, boot1X, boot1Y, 40, 40);
-            e.Graphics.FillEllipse(drawBrush, boot1X, boot1Y, 40, 40);
+            e.Graphics.DrawEllipse(bluePen, boot1X, boot1Y, playerSize, playerSize);
+            e.Graphics.FillEllipse(drawBrush, boot1X, boot1Y, playerSize, playerSize);
             drawBrush.Color = Color.Red;
             //Player 2
-            e.Graphics.DrawEllipse(redPen, boot2X, boot2Y, 40, 40);
-            e.Graphics.FillEllipse(drawBrush, boot2X, boot2Y, 40, 40);
+            e.Graphics.DrawEllipse(redPen, boot2X, boot2Y, playerSize, playerSize);
+            e.Graphics.FillEllipse(drawBrush, boot2X, boot2Y, playerSize, playerSize);
             drawBrush.Color = Color.Blue;
-            //e.Graphics.DrawRectangle(redPen, 0, 136, 1, 104);
-            // e.Graphics.DrawRectangle(redPen, 584, 136, 1, 104);
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -213,8 +212,8 @@ namespace pog
             }
 
             //create Rectangles of objects on screen to be used for collision detection 
-            Rectangle player1Rec = new Rectangle(boot1X, boot1Y, 40, 40);
-            Rectangle player2Rec = new Rectangle(boot2X, boot2Y, 40, 40);
+            Rectangle player1Rec = new Rectangle(boot1X, boot1Y, playerSize, playerSize);
+            Rectangle player2Rec = new Rectangle(boot2X, boot2Y, playerSize, playerSize);
             Rectangle ballRec = new Rectangle(ballX, ballY, ballHeight, ballWidth);
             Rectangle goal1Rec = new Rectangle(0, 136, 1, 104);
             Rectangle goal2Rec = new Rectangle(584, 136, 1, 100);
@@ -263,7 +262,7 @@ namespace pog
                 {
                     ballmove();
                 }
-                //ballX = boot2X - bootWidth;
+                
             }
             if (goal1Rec.IntersectsWith(ballRec))
             {
@@ -292,11 +291,11 @@ namespace pog
                 ballXSpeed *= -1;
 
             }
-            if (ballX > 577)
+            if (ballX > this.Width - ballWidth - 2)
             {
                 ballXSpeed *= -1;
             }
-            //check score and stop game if either player is at 3 
+            //check score and stop game if either player is at 3. Display winner and play final whistle
              if (player1Score == 3 || player2Score == 3)
             {
                 gameTimer.Enabled = false;               
@@ -320,18 +319,20 @@ namespace pog
             Refresh();
         }
 
+        //Make the kickoff. The ball does not move until kicked
         public void ballstart()
         {
             ballXSpeed = 0;
             ballYSpeed = 0;
-            ballX = this.Width / 2 - 5;
-            ballY = this.Height / 2 - 5;
-            boot1X = this.Width / 2 - 150;
-            boot2X = this.Width / 2 + 110;
-            boot1Y = this.Height / 2;
-            boot2Y = this.Height / 2;
+            ballX = this.Width / 2 - ballWidth / 2;
+            ballY = this.Height / 2 - ballHeight / 2;
+            boot1X = this.Width / 4;
+            boot2X = this.Width * 3 / 4 - bootWidth;
+            boot1Y = this.Height / 2 - bootHeight / 2;
+            boot2Y = this.Height / 2 - bootHeight / 2;
                      
         }
+        //Set the ball movement off of kickoff, play a sound, make the goal gif invisible
         public void ballmove()
         {
             ballXSpeed = 8;
